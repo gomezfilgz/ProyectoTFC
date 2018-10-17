@@ -25,8 +25,6 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
     Hilo hilo;
     int altoPantalla=0, anchoPantalla=0;
     GestureDetector detectorGestos;
-    Bitmap fondo, nave;
-    PointF coor;
     PointF pulsacion=null;
     Escena escenaActual;
 
@@ -39,24 +37,6 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
         detectorGestos=new GestureDetector(context,new MisGestos());
     }
 
-//    public void dibujar(Canvas c){
-//        c.drawBitmap(fondo, 0,0,null);
-//        c.drawBitmap(nave, coor.x, coor.y,null);
-//    }
-
-//    public void actualizarFisica(){
-//        if (pulsacion!=null){
-//            if (pulsacion.x > anchoPantalla / 2) {
-//                coor.x+=getPixels(3);
-//                if (coor.x+nave.getWidth()>anchoPantalla) coor.x=anchoPantalla-nave.getWidth();
-//            } else {
-//                coor.x-=getPixels(3);
-//                if (coor.x<0) coor.x=0;
-//
-//            }
-//        }
-//    }
-
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
@@ -66,19 +46,16 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int nuevaEscena=escenaActual.onTouchEvent(event);
-
-        if (nuevaEscena!=escenaActual.getNumEscena()){
+        if(nuevaEscena!=escenaActual.getNumEscena()){
             switch (nuevaEscena){
-                case 1: escenaActual=new Escena1(1, context, Color.RED,anchoPantalla,altoPantalla);
+                case 1: escenaActual=new Escena1(1,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
-                case 2: escenaActual=new Escena2(2, context, Color.GREEN,anchoPantalla,altoPantalla);
+                case 2: escenaActual=new Escena2(2,context,Color.CYAN,anchoPantalla,altoPantalla);
                     break;
-
             }
         }
-
         return true;
-    }
+            }
 
     public Bitmap escalaAnchura(int res, int nuevoAncho) {
         Bitmap bitmapAux= BitmapFactory.decodeResource(context.getResources(), res); if (nuevoAncho==bitmapAux.getWidth()) return bitmapAux; return bitmapAux.createScaledBitmap(bitmapAux, nuevoAncho, (bitmapAux.getHeight() * nuevoAncho) / bitmapAux.getWidth(),true); }
@@ -93,10 +70,6 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
         altoPantalla=height;
         escenaActual=new Escena1(1,context,Color.BLUE,anchoPantalla,altoPantalla);
         if (!funcionando){
-//            fondo=BitmapFactory.decodeResource(getResources(),R.drawable.tierraluna);
-//            fondo=Bitmap.createScaledBitmap(fondo, anchoPantalla,altoPantalla,false);
-//            nave=escalaAltura(R.drawable.nave,getPixels(100));
-//            coor=new PointF(anchoPantalla/2-nave.getWidth()/2,altoPantalla-nave.getHeight());
             funcionando=true;
             if (hilo.getState() == Thread.State.NEW) {
                 hilo.start(); // si el hilo no ha sido creado se crea;
@@ -138,6 +111,8 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
             }
         }
     }
+
+
 
     class MisGestos extends GestureDetector.SimpleOnGestureListener{
         @Override

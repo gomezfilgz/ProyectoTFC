@@ -18,7 +18,7 @@ public class Escena1 extends Escena {
     int efecto;
     Rect btnJugar, btnOpciones, btnAyuda, btnPuntuaciones, btnCreditos;
     Paint rect, letras;
-    Bitmap mole;
+    Bitmap fondo;
 
 
     public Escena1(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla) {
@@ -30,7 +30,7 @@ public class Escena1 extends Escena {
         btnCreditos = new Rect(anchoPantalla*30/100,altoPantalla*68/100,anchoPantalla*70/100,altoPantalla*78/100);
         btnAyuda = new Rect(anchoPantalla*30/100,altoPantalla*85/100,anchoPantalla*70/100,altoPantalla*95/100);
 
-        mole = BitmapFactory.decodeResource(context.getResources(), R.drawable.cerdo);
+        fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.nuevomenu);
 
         rect = new Paint();
         rect.setColor(Color.WHITE);
@@ -45,7 +45,7 @@ public class Escena1 extends Escena {
     public void dibujar(Canvas c) {
 
         super.dibujar(c);
-        c.drawBitmap(mole, 20, 20, null);
+        c.drawBitmap(super.escala(R.drawable.nuevomenu,anchoPantalla,altoPantalla), 0, 0, null);
         c.drawRect(btnJugar, rect);
         c.drawText("Jugar", 120, 100, letras);
         c.drawRect(btnOpciones, rect);
@@ -64,8 +64,15 @@ public class Escena1 extends Escena {
 
     }
     public int onTouchEvent(MotionEvent event) {
-        int nuevaEscena=super.onTouchEvent(event);
-        if (nuevaEscena!=numEscena) return nuevaEscena;
+        int accion=event.getAction();
+        int y = (int) event.getY();
+        int x = (int) event.getX();
+        switch (accion){
+            case MotionEvent.ACTION_DOWN:
+                if(btnJugar.contains(x,y))
+                    return  2;
+                break;
+        }
         return numEscena;
     }
 }
