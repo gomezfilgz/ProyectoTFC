@@ -9,10 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-/**
- * Created by gomez on 15/02/2018.
- */
-
 public class Escena1 extends Escena {
 
     int efecto;

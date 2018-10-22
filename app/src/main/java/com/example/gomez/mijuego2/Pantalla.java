@@ -14,18 +14,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-/**
- * Created by gomez on 15/02/2018.
- */
-
 public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
     private SurfaceHolder surfaceHolder;
     Context context;
     boolean funcionando=false;
     Hilo hilo;
     int altoPantalla=0, anchoPantalla=0;
-    GestureDetector detectorGestos;
-    PointF pulsacion=null;
     Escena escenaActual;
 
     public Pantalla(Context context){
@@ -34,7 +28,6 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
         this.surfaceHolder = getHolder();       // Se obtiene el holder
         this.surfaceHolder.addCallback(this);   // Se indica donde van las
         hilo=new Hilo();  // funciones callback
-        detectorGestos=new GestureDetector(context,new MisGestos());
     }
 
     @Override
@@ -50,7 +43,7 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
             switch (nuevaEscena){
                 case 1: escenaActual=new Escena1(1,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
-                case 2: escenaActual=new Escena2(2,context,Color.CYAN,anchoPantalla,altoPantalla);
+                case 2: escenaActual=new Escena2(2,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
             }
         }
@@ -111,31 +104,5 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
             }
         }
     }
-
-
-
-    class MisGestos extends GestureDetector.SimpleOnGestureListener{
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            Log.i("pulso", "  double tab");
-            pulsacion=null;
-            return true;
-        }
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-            if (velocityX>0) Log.i("pulso", "  fling -->");
-            else Log.i("pulso", "  fling <--");
-
-            return true;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-            super.onLongPress(e);
-            Log.i("pulso", "  long press");
-        }
-    }
-
 
 }

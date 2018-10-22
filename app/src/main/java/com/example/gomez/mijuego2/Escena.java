@@ -14,9 +14,6 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
-/**
- * Created by gomez on 15/02/2018.
- */
 
 public class Escena {
     SoundPool sonidos;
@@ -25,7 +22,7 @@ public class Escena {
     int numEscena;
     Context context;
     int colorFondo;
-    Paint pBoton,rect;
+    Paint rect;
     int anchoPantalla, altoPantalla;
     Rect bAnt;
     Bitmap back;
@@ -57,8 +54,6 @@ public class Escena {
 
     public void dibujar(Canvas c){
         c.drawColor(colorFondo);
-        if (numEscena>1) c.drawRect(bAnt,pBoton);
-        c.drawBitmap(back,anchoPantalla*85/100,altoPantalla*15/100,rect);
 
     }
 
