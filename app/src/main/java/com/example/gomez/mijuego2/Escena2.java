@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -22,6 +23,8 @@ public class Escena2 extends Escena {
     Paint rect,letras;
     CountDownTimer contador;
     long cont=0;
+    int respuesta_seleccionada,respuesta_correcta;
+    boolean tiempo_atras;
 
     public Escena2(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla) {
         super(numEscena, context, colorFondo, anchoPantalla, altoPantalla);
@@ -53,6 +56,7 @@ public class Escena2 extends Escena {
 
     public void dibujar(Canvas c){
         super.dibujar(c);
+        inicializaContador();
         c.drawBitmap(super.escala(R.drawable.quiz,anchoPantalla,altoPantalla), 0, 0, null);
         c.drawRect(btnVolver, rect);
         c.drawBitmap(btnBack,anchoPantalla*10/100,altoPantalla*10/100,null);
@@ -72,14 +76,15 @@ public class Escena2 extends Escena {
         contador = new CountDownTimer(cont*20000, 1000) {
             @Override
             public void onTick(final long l) {
+                tiempo_atras=true;
                 cont=(l/1000);
+                Log.i("Cont", cont+"");
                 //Pendiente de arreglar la cuenta atrás
             }
 
 
             public void onFinish() {
-
-
+                tiempo_atras=false;
 
             }
         };
@@ -94,6 +99,22 @@ public class Escena2 extends Escena {
             case MotionEvent.ACTION_DOWN:
                 if(btnVolver.contains(x,y))
                     return  1;
+                if(btnRespuesta1.contains(x,y)){
+                    respuesta_seleccionada=1;
+                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                }
+                if(btnRespuesta2.contains(x,y)){
+                    respuesta_seleccionada=2;
+                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                }
+                if(btnRespuesta3.contains(x,y)){
+                    respuesta_seleccionada=3;
+                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                }
+                if(btnRespuesta4.contains(x,y)){
+                    respuesta_seleccionada=4;
+                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                }
                 break;
         }
         return numEscena;

@@ -67,6 +67,8 @@ public class Escena1 extends Escena {
             case MotionEvent.ACTION_DOWN:
                 if(btnJugar.contains(x,y))
                     return  2;
+                if(btnOpciones.contains(x,y))
+                    return  3;
                 break;
         }
         return numEscena;
