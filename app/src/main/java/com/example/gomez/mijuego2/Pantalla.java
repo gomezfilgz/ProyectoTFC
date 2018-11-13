@@ -47,6 +47,8 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
                     break;
                 case 3: escenaActual=new Opciones(3,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
+                case 4: escenaActual=new Puntuaciones(4,context,Color.WHITE,anchoPantalla,altoPantalla);
+                    break;
             }
         }
         return true;

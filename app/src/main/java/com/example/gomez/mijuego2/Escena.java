@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -22,7 +23,7 @@ public class Escena {
     int numEscena;
     Context context;
     int colorFondo;
-    Paint rect;
+    Paint rect,letraslogo;
     int anchoPantalla, altoPantalla;
     Rect bAnt;
     Bitmap back;
@@ -50,6 +51,14 @@ public class Escena {
         rect.setAlpha(100);
         rect.setColor(Color.WHITE);
         bAnt = new Rect(anchoPantalla * 85 / 100, altoPantalla * 15 / 100, anchoPantalla * 93 / 100, altoPantalla * 23 / 100);
+
+
+        Typeface font = Typeface.createFromAsset(context.getAssets(), "fonts/actioncomics.ttf");
+        letraslogo = new Paint();
+        letraslogo.setAlpha(255);
+        letraslogo.setColor(Color.MAGENTA);
+        letraslogo.setTextSize(20);
+        letraslogo.setTypeface(font);
     }
 
     public void dibujar(Canvas c){

@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 
 public class Escena1 extends Escena {
@@ -26,7 +27,9 @@ public class Escena1 extends Escena {
         btnCreditos = new Rect(anchoPantalla*30/100,altoPantalla*68/100,anchoPantalla*70/100,altoPantalla*78/100);
         btnAyuda = new Rect(anchoPantalla*30/100,altoPantalla*85/100,anchoPantalla*70/100,altoPantalla*95/100);
 
-        fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.nuevomenu);
+        fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.guitarplay);
+
+
 
         rect = new Paint();
         rect.setColor(Color.WHITE);
@@ -36,12 +39,15 @@ public class Escena1 extends Escena {
         letras.setColor(Color.BLACK);
         letras.setTextSize(25);
 
+
+
     }
 
     public void dibujar(Canvas c) {
 
         super.dibujar(c);
-        c.drawBitmap(super.escala(R.drawable.nuevomenu,anchoPantalla,altoPantalla), 0, 0, null);
+        c.drawBitmap(super.escala(R.drawable.guitarplay,anchoPantalla,altoPantalla), 0, 0, null);
+        c.drawText("GUITAR-QUIZ", 38, 50, letraslogo);
         c.drawRect(btnJugar, rect);
         c.drawText("Jugar", 120, 100, letras);
         c.drawRect(btnOpciones, rect);
@@ -69,6 +75,9 @@ public class Escena1 extends Escena {
                     return  2;
                 if(btnOpciones.contains(x,y))
                     return  3;
+                if(btnPuntuaciones.contains(x,y)){
+                    return 4;
+                }
                 break;
         }
         return numEscena;

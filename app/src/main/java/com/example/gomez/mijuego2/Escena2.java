@@ -28,7 +28,7 @@ public class Escena2 extends Escena {
 
     public Escena2(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla) {
         super(numEscena, context, colorFondo, anchoPantalla, altoPantalla);
-        fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.quiz);
+        fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.guitar);
         btnVolver = new Rect(anchoPantalla * 5 / 100, altoPantalla * 15 / 100, anchoPantalla * 20 / 100, altoPantalla * 30 / 100);
 
         btnRespuesta1 = new Rect(anchoPantalla * 5 / 100, altoPantalla * 55 / 100, anchoPantalla * 45 / 100, altoPantalla * 70 / 100);
