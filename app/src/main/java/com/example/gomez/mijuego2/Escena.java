@@ -1,6 +1,7 @@
 package com.example.gomez.mijuego2;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.WindowManager;
@@ -19,7 +21,6 @@ import android.view.WindowManager;
 public class Escena {
     SoundPool sonidos;
     final private int maxSonidosSimultaneos=10;
-    ;
     int numEscena;
     Context context;
     int colorFondo;
@@ -27,6 +28,9 @@ public class Escena {
     int anchoPantalla, altoPantalla;
     Rect bAnt;
     Bitmap back;
+    CountDownTimer cTimer = null;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     AudioManager audioManager;
 
     public Escena(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla) {
@@ -59,6 +63,8 @@ public class Escena {
         letraslogo.setColor(Color.MAGENTA);
         letraslogo.setTextSize(20);
         letraslogo.setTypeface(font);
+
+        preferences = context.getSharedPreferences("Preferencias",Context.MODE_PRIVATE);
     }
 
     public void dibujar(Canvas c){

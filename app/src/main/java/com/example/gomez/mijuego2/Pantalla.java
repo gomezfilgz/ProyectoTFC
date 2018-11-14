@@ -49,6 +49,8 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
                     break;
                 case 4: escenaActual=new Puntuaciones(4,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
+                case 5: escenaActual=new Creditos(5,context,Color.WHITE,anchoPantalla,altoPantalla);
+                    break;
             }
         }
         return true;
@@ -83,6 +85,7 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         funcionando=false;
         try {
+
             hilo.join();   // Se espera a que finalize
         } catch (InterruptedException e) {
             e.printStackTrace();

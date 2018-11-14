@@ -20,15 +20,14 @@ public class Escena2 extends Escena {
 
     Bitmap fondo,btnBack,reloj;
     Rect btnVolver,btnRespuesta1,btnRespuesta2,btnRespuesta3,btnRespuesta4;
-    Paint rect,letras;
-    CountDownTimer contador;
+    Paint rect,rect2,letras;
     long cont=0;
     int respuesta_seleccionada,respuesta_correcta;
-    boolean tiempo_atras;
+    boolean tiempo_atras,finaltiempo;
 
     public Escena2(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla) {
         super(numEscena, context, colorFondo, anchoPantalla, altoPantalla);
-        fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.guitar);
+        fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.guitarmastil);
         btnVolver = new Rect(anchoPantalla * 5 / 100, altoPantalla * 15 / 100, anchoPantalla * 20 / 100, altoPantalla * 30 / 100);
 
         btnRespuesta1 = new Rect(anchoPantalla * 5 / 100, altoPantalla * 55 / 100, anchoPantalla * 45 / 100, altoPantalla * 70 / 100);
@@ -43,54 +42,49 @@ public class Escena2 extends Escena {
         rect.setColor(Color.BLACK);
         rect.setAlpha(200);
 
+        rect2= new Paint();
+        rect2.setColor(Color.BLACK);
+        rect2.setAlpha(0);
+
         letras = new Paint();
         letras.setAlpha(255);
         letras.setColor(Color.BLACK);
         letras.setTextSize(getPixels(30));
-
-        btnVolver = new Rect(anchoPantalla * 10 / 100, altoPantalla * 10 / 100, anchoPantalla * 25 / 100, altoPantalla * 20 / 100);
         cont = 20;
-        inicializaContador();
+
 
     }
 
     public void dibujar(Canvas c){
         super.dibujar(c);
-        inicializaContador();
-        c.drawBitmap(super.escala(R.drawable.quiz,anchoPantalla,altoPantalla), 0, 0, null);
-        c.drawRect(btnVolver, rect);
+
+        c.drawBitmap(super.escala(R.drawable.guitarmastil,anchoPantalla,altoPantalla), 0, 0, null);
+        c.drawRect(btnVolver, rect2);
         c.drawBitmap(btnBack,anchoPantalla*10/100,altoPantalla*10/100,null);
         c.drawBitmap(reloj,anchoPantalla*75/100,altoPantalla*5/100,null);
         c.drawRect(btnRespuesta1, rect);
         c.drawRect(btnRespuesta2, rect);
         c.drawRect(btnRespuesta3, rect);
         c.drawRect(btnRespuesta4, rect);
-        c.drawText(""+cont,anchoPantalla*83/100,altoPantalla*15/100,letras);
+        c.drawText(""+cont,anchoPantalla*80/100,altoPantalla*15/100,letras);
 
     }
     public void actualizarFisica(){
         super.actualizarFisica();
     }
 
-    private void inicializaContador(){
-        contador = new CountDownTimer(cont*20000, 1000) {
-            @Override
-            public void onTick(final long l) {
-                tiempo_atras=true;
-                cont=(l/1000);
-                Log.i("Cont", cont+"");
-                //Pendiente de arreglar la cuenta atrás
+    void startTimer() {
+        cTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                cont = (millisUntilFinished/1000);
             }
-
-
             public void onFinish() {
-                tiempo_atras=false;
-
             }
         };
-
-
+        cTimer.start();
     }
+
+
     public int onTouchEvent(MotionEvent event) {
         int accion=event.getAction();
         int y = (int) event.getY();
