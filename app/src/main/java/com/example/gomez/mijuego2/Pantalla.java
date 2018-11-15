@@ -51,6 +51,8 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
                     break;
                 case 5: escenaActual=new Creditos(5,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
+                case 6: escenaActual=new Introducir(6,context,Color.WHITE,anchoPantalla,altoPantalla);
+                    break;
             }
         }
         return true;

@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 public class Escena1 extends Escena {
 
     int efecto;
-    Rect btnJugar, btnOpciones,btnPuntuaciones, btnCreditos;
+    Rect btnJugar, btnOpciones,btnPuntuaciones, btnCreditos,btnIntroducir;
     Paint rect, letras;
     Bitmap fondo;
 
@@ -22,9 +22,11 @@ public class Escena1 extends Escena {
         super(numEscena, context, colorFondo, anchoPantalla, altoPantalla);
         efecto = sonidos.load(context, R.raw.woosh, 1);
         btnJugar = new Rect(anchoPantalla * 30 / 100, altoPantalla * 20 / 100, anchoPantalla * 70 / 100, altoPantalla * 30 / 100);
-        btnOpciones = new Rect(anchoPantalla * 30 / 100, altoPantalla * 40 / 100, anchoPantalla * 70 / 100, altoPantalla * 50 / 100);
-        btnPuntuaciones = new Rect(anchoPantalla*20/100,altoPantalla*60/100,anchoPantalla*80/100,altoPantalla*70/100);
+        btnIntroducir = new Rect(anchoPantalla*20/100,altoPantalla*35/100,anchoPantalla*80/100,altoPantalla*45/100);
+        btnOpciones = new Rect(anchoPantalla * 30 / 100, altoPantalla * 50 / 100, anchoPantalla * 70 / 100, altoPantalla * 60 / 100);
+        btnPuntuaciones = new Rect(anchoPantalla*20/100,altoPantalla*65/100,anchoPantalla*80/100,altoPantalla*75/100);
         btnCreditos = new Rect(anchoPantalla*30/100,altoPantalla*80/100,anchoPantalla*70/100,altoPantalla*90/100);
+
 
         fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.guitarplay);
 
@@ -47,12 +49,14 @@ public class Escena1 extends Escena {
         c.drawText("GUITAR-QUIZ", 38, 50, letraslogo);
         c.drawRect(btnJugar, rect);
         c.drawText("Jugar", 120, 125, letras);
+        c.drawRect(btnIntroducir, rect);
+        c.drawText("Introducir", 100, 200, letras);
         c.drawRect(btnOpciones, rect);
-        c.drawText("Opciones", 112, 220, letras);
+        c.drawText("Opciones", 112, 270, letras);
         c.drawRect(btnPuntuaciones,rect);
-        c.drawText("Puntuaciones", 90, 320, letras);
+        c.drawText("Puntuaciones", 90, 340, letras);
         c.drawRect(btnCreditos,rect);
-        c.drawText("Creditos", 116, 410, letras);
+        c.drawText("Creditos", 116, 420, letras);
 
     }
     public void actualizarFisica(){
@@ -74,6 +78,9 @@ public class Escena1 extends Escena {
                 }
                 if(btnCreditos.contains(x,y)){
                     return 5;
+                }
+                if(btnIntroducir.contains(x,y)){
+                    return 6;
                 }
                 break;
         }
