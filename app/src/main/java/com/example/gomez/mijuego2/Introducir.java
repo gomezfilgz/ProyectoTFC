@@ -18,6 +18,22 @@ public class Introducir extends Escena {
     Bitmap fondo, btnBack;
     Rect btnVolver;
     Paint rect, letras;
+    BD DB;
+    String database = "Quiz";
+
+    public static final String ID_PREGUNTA ="id_pregunta";
+    public static final String PREGUNTA ="pregunta";
+
+    private  static final String DATABASE ="Quiz";
+    private  static final String TABLE1 ="Preguntas";
+
+    //BD RESPUESTAS
+
+    public static final String ID_RESPUESTA ="id_respuesta";
+    public static final String RESPUESTA ="respuesta";
+    public static final String CORRECTA ="correcta";
+    public static final String IDPREGUNTA ="idpregunta";
+    private  static final String TABLE2 ="Respuestas";
 
 
     public Introducir(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla) {
@@ -49,6 +65,13 @@ public class Introducir extends Escena {
 
     public void actualizarFisica() {
         super.actualizarFisica();
+    }
+
+    private void addNota(){
+        //DB = new BD(this,database);
+        String pregunta;
+        pregunta = PREGUNTA;
+        DB.addPregunta(pregunta);
     }
 
 
