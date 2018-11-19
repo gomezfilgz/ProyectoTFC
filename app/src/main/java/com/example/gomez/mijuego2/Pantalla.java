@@ -21,10 +21,12 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
     Hilo hilo;
     int altoPantalla=0, anchoPantalla=0;
     Escena escenaActual;
+    BD baseDatos;
 
-    public Pantalla(Context context){
+    public Pantalla(Context context, BD baseDatos){
         super(context);
         this.context=context;
+        this.baseDatos = baseDatos;
         this.surfaceHolder = getHolder();       // Se obtiene el holder
         this.surfaceHolder.addCallback(this);   // Se indica donde van las
         hilo=new Hilo();  // funciones callback
@@ -43,7 +45,7 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
             switch (nuevaEscena){
                 case 1: escenaActual=new Escena1(1,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
-                case 2: escenaActual=new Escena2(2,context,Color.WHITE,anchoPantalla,altoPantalla);
+                case 2: escenaActual=new Escena2(2,context,Color.WHITE,anchoPantalla,altoPantalla, baseDatos);
                     break;
                 case 3: escenaActual=new Opciones(3,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
@@ -56,7 +58,7 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
             }
         }
         return true;
-            }
+    }
 
     public Bitmap escalaAnchura(int res, int nuevoAncho) {
         Bitmap bitmapAux= BitmapFactory.decodeResource(context.getResources(), res); if (nuevoAncho==bitmapAux.getWidth()) return bitmapAux; return bitmapAux.createScaledBitmap(bitmapAux, nuevoAncho, (bitmapAux.getHeight() * nuevoAncho) / bitmapAux.getWidth(),true); }

@@ -12,6 +12,8 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
+
 /**
  * Created by gomez on 15/02/2018.
  */
@@ -23,11 +25,19 @@ public class Escena2 extends Escena {
     Paint rect,rect2,rect3,letras,letras2;
     long cont=0;
     CountDownTimer contador;
-    int respuesta_seleccionada,respuesta_correcta;
+    int respuesta_seleccionada = -1;
     boolean tiempo_atras,finaltiempo,inicial=true;
+    BD baseDatos;
 
-    public Escena2(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla) {
+    String pregunta;
+    ArrayList<String> respuestas;
+    String respuestaCorrecta;
+
+    int fase = 1;
+
+    public Escena2(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla, BD baseDatos) {
         super(numEscena, context, colorFondo, anchoPantalla, altoPantalla);
+        this.baseDatos = baseDatos;
         fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.guitarmastil);
         btnVolver = new Rect(anchoPantalla * 5 / 100, altoPantalla * 15 / 100, anchoPantalla * 20 / 100, altoPantalla * 30 / 100);
 
@@ -61,27 +71,41 @@ public class Escena2 extends Escena {
         letras2.setColor(Color.WHITE);
         letras2.setTextSize(getPixels(20));
 
+        leerDatos();
+    }
+
+    public void leerDatos(){
+        Log.i("XXX", "Lectura de datos para fase: " + fase);
+        pregunta = baseDatos.getPregunta(fase);
+        respuestas = baseDatos.getRespuestas(fase);
+        respuestaCorrecta = baseDatos.getRespuestaCorrecta(fase);
+
         cont = 20;
         inicializaContador();
-
-
     }
 
     public void dibujar(Canvas c){
         try{
-        super.dibujar(c);
+            super.dibujar(c);
 
-        c.drawBitmap(super.escala(R.drawable.guitarmastil,anchoPantalla,altoPantalla), 0, 0, null);
-        c.drawRect(btnVolver, rect2);
-        c.drawBitmap(btnBack,anchoPantalla*10/100,altoPantalla*10/100,null);
-        c.drawBitmap(reloj,anchoPantalla*75/100,altoPantalla*5/100,null);
-        c.drawText("Tiempo: ",anchoPantalla*45/100,altoPantalla*40/100,letras2);
-        c.drawText(""+cont,anchoPantalla*45/100,altoPantalla*50/100,letras2);
-        c.drawRect(btnRespuesta1, rect);
-        c.drawRect(btnRespuesta2, rect);
-        c.drawRect(btnRespuesta3, rect);
-        c.drawRect(btnRespuesta4, rect);
-        c.drawText(""+cont,anchoPantalla*80/100,altoPantalla*15/100,letras);
+            c.drawBitmap(super.escala(R.drawable.guitarmastil,anchoPantalla,altoPantalla), 0, 0, null);
+            c.drawRect(btnVolver, rect2);
+            c.drawBitmap(btnBack,anchoPantalla*10/100,altoPantalla*10/100,null);
+            c.drawBitmap(reloj,anchoPantalla*75/100,altoPantalla*5/100,null);
+            c.drawText("Tiempo: ",anchoPantalla*45/100,altoPantalla*40/100,letras2);
+            c.drawText(""+cont,anchoPantalla*45/100,altoPantalla*50/100,letras2);
+            c.drawRect(btnRespuesta1, rect);
+            c.drawRect(btnRespuesta2, rect);
+            c.drawRect(btnRespuesta3, rect);
+            c.drawRect(btnRespuesta4, rect);
+
+            c.drawText(pregunta, 50, anchoPantalla*30/100, letras);
+            c.drawText(respuestas.get(0), btnRespuesta1.left, btnRespuesta1.top, letras2);
+            c.drawText(respuestas.get(1), btnRespuesta2.left, btnRespuesta2.top, letras2);
+            c.drawText(respuestas.get(2), btnRespuesta3.left, btnRespuesta3.top, letras2);
+            c.drawText(respuestas.get(3), btnRespuesta4.left, btnRespuesta4.top, letras2);
+
+            c.drawText(""+cont,anchoPantalla*80/100,altoPantalla*15/100,letras);
 
             if (inicial){
                 c.drawRect(0,0,anchoPantalla,altoPantalla,rect3);
@@ -89,7 +113,7 @@ public class Escena2 extends Escena {
                 //Estado inicial antes de comenzar la partida
             }
 
-    }catch (NullPointerException e){}
+        }catch (NullPointerException e){}
 
     }
     public void actualizarFisica(){
@@ -132,6 +156,7 @@ public class Escena2 extends Escena {
 
     public int onTouchEvent(MotionEvent event) {
         inicial=false;
+        respuesta_seleccionada = -1;
 
         //Meter una booleana para que al pulsar no se esté reiniciando el contador
         contador.start();
@@ -144,23 +169,32 @@ public class Escena2 extends Escena {
                 if(btnVolver.contains(x,y))
                     return  1;
                 if(btnRespuesta1.contains(x,y)){
-                    respuesta_seleccionada=1;
-                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                    respuesta_seleccionada=0;
                 }
                 if(btnRespuesta2.contains(x,y)){
-                    respuesta_seleccionada=2;
-                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                    respuesta_seleccionada=1;
                 }
                 if(btnRespuesta3.contains(x,y)){
-                    respuesta_seleccionada=3;
-                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                    respuesta_seleccionada=2;
                 }
                 if(btnRespuesta4.contains(x,y)){
-                    respuesta_seleccionada=4;
-                    Log.i("Respuesta correcta=",respuesta_correcta+"");
+                    respuesta_seleccionada=3;
                 }
+
+                if(respuesta_seleccionada < 0) return numEscena;
+
+                if(respuestas.get(respuesta_seleccionada).equals(respuestaCorrecta)){
+                    //Acerto
+                    fase++;
+                    leerDatos();
+                }else{
+                    //Falloxx
+                }
+
+
                 break;
         }
         return numEscena;
     }
+
 }
