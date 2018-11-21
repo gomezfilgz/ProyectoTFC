@@ -30,11 +30,7 @@ public class BD extends SQLiteOpenHelper {
     public static final String IDPREGUNTA ="idpregunta";
     private  static final String TABLE2 ="Respuestas";
 
-    private static String DB_PATH ="/data/data/"+BuildConfig.APPLICATION_ID+"/databases/";
     private SQLiteDatabase baseDatos;
-
-
-    private Context context;
 
 
     public BD(Context context) {
@@ -104,17 +100,23 @@ public class BD extends SQLiteOpenHelper {
                 ID_RESPUESTA+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
                 RESPUESTA + " TEXT, "+CORRECTA+ " INTEGER, "+IDPREGUNTA+" INTEGER)");
 
-        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"En que año comenzó la segunda guerra mundial?\")");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"1915\", 0, 1)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"1936\", 1, 1)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"1934\", 0, 1)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"1928\", 0, 1)");
+        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"¿En qué ciudad inglesa nació Noel Gallagher?\")");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Manchester\", 1, 1)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Liverpool\", 0, 1)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Londres\", 0, 1)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Birmingham\", 0, 1)");
 
-        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"Pregunta 2?\")");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Respuesta 1\", 0, 2)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Respuesta 2\", 1, 2)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Respuesta 3\", 0, 2)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Respuesta 4\", 0, 2)");
+        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"¿Que banda publicó el single November Rain en el año 1991?\")");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Led Zepelin\", 0, 2)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Aerosmith\", 0, 2)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Guns N' Roses\", 1, 2)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Metallica\", 0, 2)");
+
+        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"¿Cual de estas bandas no está formada en Reino Unido?\")");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Judas Priest\", 0, 3)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Motorhead\", 0, 3)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Megadeth\", 1, 3)");
+        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Black Sabbath\", 0, 3)");
 
 
         Log.i("XXX", "Base de datos creada");
@@ -130,63 +132,4 @@ public class BD extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //BD PREGUNTAS
-    public void addPregunta(String pregunta){
-        ContentValues values = new ContentValues();
-        values.put(PREGUNTA,pregunta);
-        this.getWritableDatabase().insert(TABLE1,null,values);
-    }
-
-    public Cursor getPregunta(String condition){
-        String col[] ={ID_PREGUNTA,PREGUNTA};
-        String[] args = new String[] {condition};
-        Cursor c = this.getReadableDatabase().query(TABLE1,col, PREGUNTA+"=?",args,null,null, ID_PREGUNTA+" DESC");
-        return c;
-    }
-
-    public Cursor getPreguntas(){
-        String col[] ={ID_PREGUNTA,PREGUNTA};
-        Cursor c = this.getReadableDatabase().query(TABLE1,col,null,null,null,null,ID_PREGUNTA+" DESC");
-        return c;
-    }
-
-    public void deletePreguntas(String condition){
-        String[]args = {condition};
-        this.getWritableDatabase().delete(TABLE1,ID_PREGUNTA+"=?",args);
-    }
-
-    //BD RESPUESTAS
-    public void addRespuestas(String respuesta,int correcta,int idpregunta){
-        ContentValues values = new ContentValues();
-        values.put(RESPUESTA,respuesta);
-        values.put(CORRECTA,correcta);
-        values.put(IDPREGUNTA,idpregunta);
-        this.getWritableDatabase().insert(TABLE2,null,values);
-    }
-
-    public Cursor getRespuesta(String condition){
-        String col[] ={ID_RESPUESTA,RESPUESTA,CORRECTA,IDPREGUNTA};
-        String[] args = new String[] {condition};
-        Cursor c = this.getReadableDatabase().query(TABLE2,col, RESPUESTA+"=?",args,null,null, ID_RESPUESTA+" DESC");
-        return c;
-    }
-
-    public Cursor getRespuestas(){
-        String col[] ={ID_RESPUESTA,RESPUESTA,CORRECTA,IDPREGUNTA};
-        Cursor c = this.getReadableDatabase().query(TABLE2,col,null,null,null,null,ID_RESPUESTA+" DESC");
-        return c;
-    }
-
-    public void deleteRespuesta(String condition){
-        String[]args = {condition};
-        this.getWritableDatabase().delete(TABLE2,ID_RESPUESTA+"=?",args);
-    }
-
-    /*public Cursor getPreguntayrespuestas(String condition){
-        String col[] ={ID_RESPUESTA,RESPUESTA,CORRECTA,IDPREGUNTA};
-        String[] args = new String[] {condition};
-        Cursor c = this.getReadableDatabase().query(TABLE2,col, RESPUESTA+"=?",args,null,null, ID_RESPUESTA+" DESC");
-        return c;
-    }
-    */
 }

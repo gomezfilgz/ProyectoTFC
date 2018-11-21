@@ -67,13 +67,6 @@ public class Introducir extends Escena {
         super.actualizarFisica();
     }
 
-    private void addNota(){
-        //DB = new BD(this,database);
-        String pregunta;
-        pregunta = PREGUNTA;
-        DB.addPregunta(pregunta);
-    }
-
 
     public int onTouchEvent(MotionEvent event) {
         int accion = event.getAction();

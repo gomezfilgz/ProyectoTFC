@@ -45,7 +45,7 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
             switch (nuevaEscena){
                 case 1: escenaActual=new Escena1(1,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
-                case 2: escenaActual=new Escena2(2,context,Color.WHITE,anchoPantalla,altoPantalla, baseDatos);
+                case 2: escenaActual=new Juego(2,context,Color.WHITE,anchoPantalla,altoPantalla, baseDatos);
                     break;
                 case 3: escenaActual=new Opciones(3,context,Color.WHITE,anchoPantalla,altoPantalla);
                     break;
@@ -59,13 +59,6 @@ public class Pantalla extends SurfaceView implements SurfaceHolder.Callback{
         }
         return true;
     }
-
-    public Bitmap escalaAnchura(int res, int nuevoAncho) {
-        Bitmap bitmapAux= BitmapFactory.decodeResource(context.getResources(), res); if (nuevoAncho==bitmapAux.getWidth()) return bitmapAux; return bitmapAux.createScaledBitmap(bitmapAux, nuevoAncho, (bitmapAux.getHeight() * nuevoAncho) / bitmapAux.getWidth(),true); }
-    public Bitmap escalaAltura(int res, int nuevoAlto ) {
-        Bitmap bitmapAux=BitmapFactory.decodeResource(context.getResources(), res); if (nuevoAlto==bitmapAux.getHeight()) return bitmapAux; return bitmapAux.createScaledBitmap(bitmapAux, (bitmapAux.getWidth() * nuevoAlto) / bitmapAux.getHeight(), nuevoAlto, true); }
-    int getPixels(float dp) {
-        DisplayMetrics metrics = new DisplayMetrics(); ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay(). getMetrics(metrics); return (int)(dp*metrics.density); }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {

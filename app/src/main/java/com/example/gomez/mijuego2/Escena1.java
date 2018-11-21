@@ -46,7 +46,7 @@ public class Escena1 extends Escena {
 
         super.dibujar(c);
         c.drawBitmap(super.escala(R.drawable.guitarplay,anchoPantalla,altoPantalla), 0, 0, null);
-        c.drawText("GUITAR-QUIZ", 38, 50, letraslogo);
+        c.drawText("GUITAR-QUIZ", 38, 50, letraslogo); //altopantalla,anchopantalla
         c.drawRect(btnJugar, rect);
         c.drawText("Jugar", 120, 125, letras);
         c.drawRect(btnIntroducir, rect);

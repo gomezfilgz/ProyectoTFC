@@ -18,15 +18,15 @@ import java.util.ArrayList;
  * Created by gomez on 15/02/2018.
  */
 
-public class Escena2 extends Escena {
+public class Juego extends Escena {
 
     Bitmap fondo,btnBack,reloj;
     Rect btnVolver,btnRespuesta1,btnRespuesta2,btnRespuesta3,btnRespuesta4;
-    Paint rect,rect2,rect3,letras,letras2;
-    long cont=0;
-    CountDownTimer contador;
-    int respuesta_seleccionada = -1;
-    boolean tiempo_atras,finaltiempo,inicial=true;
+    Paint rect,rect2,rect3,letras,letras2,rectAcierto,rectError;
+    long cont=0,contDespuesResponder=3;
+    CountDownTimer contador,contadorDespues;
+    int respuesta_seleccionada = -1,pulsos=0;
+    boolean error,acierto,inicial=true,pulsada=false;
     BD baseDatos;
 
     String pregunta;
@@ -35,7 +35,7 @@ public class Escena2 extends Escena {
 
     int fase = 1;
 
-    public Escena2(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla, BD baseDatos) {
+    public Juego(int numEscena, Context context, int colorFondo, int anchoPantalla, int altoPantalla, BD baseDatos) {
         super(numEscena, context, colorFondo, anchoPantalla, altoPantalla);
         this.baseDatos = baseDatos;
         fondo = BitmapFactory.decodeResource(context.getResources(), R.drawable.guitarmastil);
@@ -60,6 +60,14 @@ public class Escena2 extends Escena {
         rect3 = new Paint();
         rect3.setAlpha(40);
         rect3.setColor(Color.WHITE);
+
+        rectAcierto = new Paint();
+        rectAcierto.setAlpha(80);
+        rectAcierto.setColor(Color.GREEN);
+
+        rectError = new Paint();
+        rectError.setAlpha(80);
+        rectError.setColor(Color.RED);
 
         letras = new Paint();
         letras.setAlpha(255);
@@ -92,25 +100,57 @@ public class Escena2 extends Escena {
             c.drawRect(btnVolver, rect2);
             c.drawBitmap(btnBack,anchoPantalla*10/100,altoPantalla*10/100,null);
             c.drawBitmap(reloj,anchoPantalla*75/100,altoPantalla*5/100,null);
-            c.drawText("Tiempo: ",anchoPantalla*45/100,altoPantalla*40/100,letras2);
-            c.drawText(""+cont,anchoPantalla*45/100,altoPantalla*50/100,letras2);
+            c.drawText(""+cont,anchoPantalla*83/100,altoPantalla*15/100,letras);
             c.drawRect(btnRespuesta1, rect);
             c.drawRect(btnRespuesta2, rect);
             c.drawRect(btnRespuesta3, rect);
             c.drawRect(btnRespuesta4, rect);
 
-            c.drawText(pregunta, 50, anchoPantalla*30/100, letras);
-            c.drawText(respuestas.get(0), btnRespuesta1.left, btnRespuesta1.top, letras2);
-            c.drawText(respuestas.get(1), btnRespuesta2.left, btnRespuesta2.top, letras2);
-            c.drawText(respuestas.get(2), btnRespuesta3.left, btnRespuesta3.top, letras2);
-            c.drawText(respuestas.get(3), btnRespuesta4.left, btnRespuesta4.top, letras2);
+            c.drawText(pregunta, anchoPantalla*0/100, altoPantalla*50/100, letras2);
+            c.drawText(respuestas.get(0), btnRespuesta1.left, (btnRespuesta1.top)+(btnRespuesta1.height()/2), letras2);
+            c.drawText(respuestas.get(1), btnRespuesta2.left, (btnRespuesta2.top)+(btnRespuesta2.height()/2), letras2);
+            c.drawText(respuestas.get(2), btnRespuesta3.left, (btnRespuesta3.top)+(btnRespuesta3.height()/2), letras2);
+            c.drawText(respuestas.get(3), btnRespuesta4.left, (btnRespuesta4.top)+(btnRespuesta4.height()/2), letras2);
 
-            c.drawText(""+cont,anchoPantalla*80/100,altoPantalla*15/100,letras);
+
 
             if (inicial){
                 c.drawRect(0,0,anchoPantalla,altoPantalla,rect3);
                 c.drawText("Comenzar",anchoPantalla*15/100,altoPantalla*40/100,letras);
                 //Estado inicial antes de comenzar la partida
+            }
+
+            if (acierto) {
+                    switch (respuesta_seleccionada) {
+                        case 0:
+                            c.drawRect(btnRespuesta1, rectAcierto);
+                            break;
+                        case 1:
+                            c.drawRect(btnRespuesta2, rectAcierto);
+                            break;
+                        case 2:
+                            c.drawRect(btnRespuesta3, rectAcierto);
+                            break;
+                        case 3:
+                            c.drawRect(btnRespuesta4, rectAcierto);
+                            break;
+                    }
+            }
+            if (error) {
+                    switch (respuesta_seleccionada) {
+                        case 0:
+                            c.drawRect(btnRespuesta1, rectError);
+                            break;
+                        case 1:
+                            c.drawRect(btnRespuesta2, rectError);
+                            break;
+                        case 2:
+                            c.drawRect(btnRespuesta3, rectError);
+                            break;
+                        case 3:
+                            c.drawRect(btnRespuesta4, rectError);
+                            break;
+                    }
             }
 
         }catch (NullPointerException e){}
@@ -123,24 +163,13 @@ public class Escena2 extends Escena {
     private void inicializaContador(){
         contador = new CountDownTimer(cont*1000, 1000) {
             @Override
-            /**
-             * Metodo que se ejecuta en cada tick del contador
-             * @param l variable de tipo long que va cambiando en cada tick del contador
-             * @return void
-             */
             public void onTick(final long l) {
                 cont=(l/1000);
-                //Guardamos en la variable cont el tiempo en cada cambio del contador
                 Log.i("Tiempo",cont+"");
             }
 
             @Override
-            /**
-             * Metodo que se ejecuta cuadno finaliza el contador
-             * @return void
-             */
             public void onFinish() {
-                //Metodo que se ejecuta cuando finaliza el tiempo
                 cont = 0;
                 int actual = preferences.getInt("puntuaciones_size", 0);
                 editor = preferences.edit();
@@ -149,17 +178,37 @@ public class Escena2 extends Escena {
 
             }
         };
-
-
     }
 
+    private void iniciarcuenta() {
+        contadorDespues = new CountDownTimer(contDespuesResponder * 1000, 1000) {
+            @Override
+            public void onTick(final long l) {
+                contDespuesResponder = (l / 1000);
+                Log.i("CONTADOR CUENTA ATRAS", contDespuesResponder + "");
+            }
+
+            @Override
+            public void onFinish() {
+                contDespuesResponder = 0;
+                contadorDespues.cancel();
+                acierto=false;
+                error=false;
+                fase++;
+                leerDatos();
+            }
+        };
+    }
 
     public int onTouchEvent(MotionEvent event) {
         inicial=false;
         respuesta_seleccionada = -1;
-
+        pulsos++;
+        if(pulsos<2){
+            contador.start();
+        }
         //Meter una booleana para que al pulsar no se esté reiniciando el contador
-        contador.start();
+
         //Al pulsar en una pregunta el tiempo se tiene que parar
         int accion=event.getAction();
         int y = (int) event.getY();
@@ -170,25 +219,39 @@ public class Escena2 extends Escena {
                     return  1;
                 if(btnRespuesta1.contains(x,y)){
                     respuesta_seleccionada=0;
+                    pulsada=true;
+                    pulsos=0;
                 }
                 if(btnRespuesta2.contains(x,y)){
                     respuesta_seleccionada=1;
+                    pulsada=true;
+                    pulsos=0;
                 }
                 if(btnRespuesta3.contains(x,y)){
                     respuesta_seleccionada=2;
+                    pulsada=true;
+                    pulsos=0;
                 }
                 if(btnRespuesta4.contains(x,y)){
                     respuesta_seleccionada=3;
+                    pulsada=true;
+                    pulsos=0;
+                }
+                if(pulsada){
+                    iniciarcuenta();
+                    Log.i("XXXXXXXX","Pulsada es true");
+                    contadorDespues.start();
                 }
 
                 if(respuesta_seleccionada < 0) return numEscena;
 
                 if(respuestas.get(respuesta_seleccionada).equals(respuestaCorrecta)){
                     //Acerto
-                    fase++;
-                    leerDatos();
+                    acierto=true;
+
                 }else{
-                    //Falloxx
+                    //Fallo
+                    error=true;
                 }
 
 
