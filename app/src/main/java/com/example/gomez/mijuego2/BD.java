@@ -6,11 +6,16 @@ package com.example.gomez.mijuego2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class BD extends SQLiteOpenHelper {
@@ -20,7 +25,7 @@ public class BD extends SQLiteOpenHelper {
     public static final String PREGUNTA ="pregunta";
 
     private  static final String DATABASE ="Quiz";
-    private  static final String TABLE1 ="Preguntas";
+    private  static final String TABLA_PREGUNTAS ="Preguntas";
 
     //BD RESPUESTAS
 
@@ -28,21 +33,68 @@ public class BD extends SQLiteOpenHelper {
     public static final String RESPUESTA ="respuesta";
     public static final String CORRECTA ="correcta";
     public static final String IDPREGUNTA ="idpregunta";
-    private  static final String TABLE2 ="Respuestas";
+    private  static final String TABLA_RESPUESTAS ="Respuestas";
 
     private SQLiteDatabase baseDatos;
+    private Context context;
 
 
     public BD(Context context) {
         super(context, DATABASE, null, 1);
         Log.i("XXX", "Constructor");
+        this.context = context;
         baseDatos = getWritableDatabase();
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        Log.i("XXX", "onCreate");
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte buf[] = new byte[1024];
+        int len;
+        AssetManager assetManager = context.getAssets();
+        InputStream inputStream = null;
+
+        try{
+            inputStream = assetManager.open("crearBD.sql");
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+
+            String[] script = outputStream.toString().split("\\n");
+            for (String line : script) {
+                String sqlStatement = line.trim();
+                Log.i("XXX", "Ejecutando sentencia: " + sqlStatement);
+                if (sqlStatement.length() > 0) {
+                    db.execSQL(sqlStatement + ";");
+                }
+            }
+        } catch (IOException e){
+            Log.e("XXX", "Error: " + e.getLocalizedMessage());
+        } catch (SQLException e) {
+            Log.e("XXX", "Error: " + e.getLocalizedMessage());
+        }
+
+        Log.i("XXX", "Base de datos creada");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldversion, int newversion) {
+        Log.i("XXX", "onUpdate");
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLA_PREGUNTAS);
+        onCreate(db);
+
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLA_RESPUESTAS);
+        onCreate(db);
     }
 
     public String getPregunta(int id){
         Log.i("XXX", "GET PREGUNTA: " +id);
 
-        Cursor c = baseDatos.rawQuery("SELECT * FROM " + TABLE1 + " WHERE " + ID_PREGUNTA + " = " + id, null);
+        Cursor c = baseDatos.rawQuery("SELECT * FROM " + TABLA_PREGUNTAS + " WHERE " + ID_PREGUNTA + " = " + id, null);
         if (c.moveToFirst()){
             do {
                 String column1 = c.getString(0);
@@ -58,7 +110,7 @@ public class BD extends SQLiteOpenHelper {
     public ArrayList<String> getRespuestas(int id){
         ArrayList<String> respuestas = new ArrayList<>();
 
-        Cursor c = baseDatos.rawQuery("SELECT * FROM " + TABLE2 + " WHERE " + IDPREGUNTA + " = " + id, null);
+        Cursor c = baseDatos.rawQuery("SELECT * FROM " + TABLA_RESPUESTAS + " WHERE " + IDPREGUNTA + " = " + id, null);
         if (c.moveToFirst()){
             do {
                 String column1 = c.getString(0);
@@ -72,7 +124,7 @@ public class BD extends SQLiteOpenHelper {
     }
 
     public String getRespuestaCorrecta(int id){
-        Cursor c = baseDatos.rawQuery("SELECT * FROM " + TABLE2 + " WHERE " + IDPREGUNTA + " = " + id + " AND " + CORRECTA + " = 1", null);
+        Cursor c = baseDatos.rawQuery("SELECT * FROM " + TABLA_RESPUESTAS + " WHERE " + IDPREGUNTA + " = " + id + " AND " + CORRECTA + " = 1", null);
         if (c.moveToFirst()){
             do {
                 String column1 = c.getString(0);
@@ -85,51 +137,42 @@ public class BD extends SQLiteOpenHelper {
         return null;
     }
 
+    public void introducirPregunta(String pregunta, ArrayList<String> respuestas, int correcta) {
+        ContentValues nuevaPregunta = new ContentValues();
+        nuevaPregunta.put(PREGUNTA, pregunta);
+        long idPregunta = baseDatos.insert(TABLA_PREGUNTAS, null, nuevaPregunta);
 
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        Log.i("XXX", "onCreate");
-
-        db.execSQL("CREATE TABLE "+TABLE1+" ("+
-                ID_PREGUNTA+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                PREGUNTA +" TEXT)");
-
-
-        db.execSQL("CREATE TABLE "+TABLE2+" ("+
-                ID_RESPUESTA+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                RESPUESTA + " TEXT, "+CORRECTA+ " INTEGER, "+IDPREGUNTA+" INTEGER)");
-
-        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"¿En qué ciudad inglesa nació Noel Gallagher?\")");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Manchester\", 1, 1)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Liverpool\", 0, 1)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Londres\", 0, 1)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Birmingham\", 0, 1)");
-
-        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"¿Que banda publicó el single November Rain en el año 1991?\")");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Led Zepelin\", 0, 2)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Aerosmith\", 0, 2)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Guns N' Roses\", 1, 2)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Metallica\", 0, 2)");
-
-        db.execSQL("INSERT INTO " + TABLE1 + "(" + PREGUNTA + ") VALUES (\"¿Cual de estas bandas no está formada en Reino Unido?\")");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Judas Priest\", 0, 3)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Motorhead\", 0, 3)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Megadeth\", 1, 3)");
-        db.execSQL("INSERT INTO " + TABLE2 + "(respuesta, correcta, idpregunta) VALUES (\"Black Sabbath\", 0, 3)");
-
-
-        Log.i("XXX", "Base de datos creada");
+        for(int i=0; i<respuestas.size(); i++){
+            int buena = 0;
+            if(correcta == i) buena = 1;
+            baseDatos.execSQL("INSERT INTO " + TABLA_RESPUESTAS + " (respuesta, correcta, idpregunta) VALUES (\"" +
+                    respuestas.get(i) + "\", " + buena + ", "+ idPregunta +")");
+        }
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldversion, int newversion) {
-        Log.i("XXX", "onUpdate");
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE1);
-        onCreate(db);
-
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE2);
-        onCreate(db);
+    public int numeroPreguntas(){
+        String countQuery = "SELECT  * FROM " + TABLA_PREGUNTAS;
+        Cursor cursor = baseDatos.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
+    public ArrayList<ModeloPregunta> getPreguntas() {
+        ArrayList preguntas = new ArrayList();
+
+        String countQuery = "SELECT  * FROM " + TABLA_PREGUNTAS;
+        Cursor cursor = baseDatos.rawQuery(countQuery, null);
+
+        while(cursor.moveToNext()){
+            preguntas.add(new ModeloPregunta(cursor.getInt(0), cursor.getString(1)));
+        }
+
+        return preguntas;
+    }
+
+    public void borrarPregunta(ModeloPregunta modeloPregunta) {
+        baseDatos.delete(TABLA_PREGUNTAS, ID_PREGUNTA + "=" + modeloPregunta.getId(), null);
+        baseDatos.delete(TABLA_RESPUESTAS, IDPREGUNTA + "=" + modeloPregunta.getId(), null);
+    }
 }

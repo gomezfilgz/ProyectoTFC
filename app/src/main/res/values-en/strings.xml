@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MiJuego2</string>
-    <string name="creditos">CREDITS</string>
+    <string name="app_name">Guitar Quiz</string>
+    <string name="Jugar">Play</string>
+    <string name="Opciones">Options</string>
+    <string name="Editar">Editar</string>
+    <string name="creditos">Credits</string>
+    <string name="Ayuda">Help</string>
+    <string name="ayuda1">To get the maximum score possible we must hit as many more questions better</string>
+    <string name="ayuda2">We will get one point for each successful question</string>
+    <string name="ayuda3">In the options window we can select the response time, if when the question fails, the game ends and if we want the questions to come out randomly or in order</string>
+    <string name="ayuda4">Are you ready? Test your knowledge about the world of Rock with Guitar Quiz!</string>
+    <string name="creditos1">Imaxes de uso gratuíto de Pixabay.com e iconos de Android</string>
+    <string name="creditos2">Developer: Jairo Gómez</string>
+    <string name="creditos3">Tester and ideas: Julio Gómez</string>
+    <string name="opciones1">Time per question</string>
+    <string name="opciones2">Finish when failing</string>
+    <string name="opciones3">Random mode</string>
+    <string name="Introducirpregunta">Enter Question</string>
+    <string name="introducir1">Enter a question</string>
+    <string name="introducir2">Answer1</string>
+    <string name="introducir3">Answer2</string>
+    <string name="introducir4">Answer3</string>
+    <string name="introducir5">Answer4</string>
+    <string name="introducir6">Save</string>
+    <string name="Fin">The End</string>
+    <string name="Felicidades">Congratulations, you have obtained a score of %d points</string>
+    <string name="Resumeboton">Share</string>
+    <string name="Toastintroducir">Question successfully entered</string>
+    <string name="Toastintroducir1">Error! Please, select an answer as correct!</string>
+    <string name="Toastintroducir2">Error! Please, check all the fields!</string>
 </resources>

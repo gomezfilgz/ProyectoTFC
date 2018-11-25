@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:background="@drawable/guitarmastil"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:hint="@string/Opciones"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_alignParentLeft="true"
+            android:text="@string/opciones1"/>
+
+        <TextView
+            android:id="@+id/tiempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/duracion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:min="5"
+        android:max="20"
+        android:thumbTint="#FF4444"
+        android:progressBackgroundTint="#666666"
+        android:layout_marginTop="16dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/acabar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:buttonTint="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_toLeftOf="@id/acabar"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:text="@string/opciones2"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/random"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:buttonTint="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_toLeftOf="@id/random"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:text="@string/opciones3"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

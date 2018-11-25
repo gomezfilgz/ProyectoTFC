@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MiJuego2</string>
-    <string name="creditos">CREDITOS</string>
+    <string name="app_name">Guitar Quiz</string>
+    <string name="Jugar">Xogar</string>
+    <string name="Opciones">Opcións</string>
+    <string name="Editar">Introducir</string>
+    <string name="creditos">Créditos</string>
+    <string name="Ayuda">Axuda</string>
+    <string name="ayuda1">Para obter a puntuación máxima posible debemos acadar tantas máis preguntas mellor</string>
+    <string name="ayuda2">Recibiremos un punto para cada pregunta correcta</string>
+    <string name="ayuda3">Na xanela de opcións podemos seleccionar o tempo de resposta, se, cando falla a pregunta, o xogo remata e si queremos que as preguntas saian de forma aleatoria ou en orde</string>
+    <string name="ayuda4">Estás preparado? Proba o teu coñecemento sobre o mundo do rock con Guitar Quiz.</string>
+    <string name="creditos1">Free-use images of Pixabay.com and Android icons</string>
+    <string name="creditos2">Desenvolvedor: Jairo Gómez</string>
+    <string name="creditos3">Tester e ideas: Julio Gómez</string>
+    <string name="opciones1">Tempo por resposta</string>
+    <string name="opciones2">Rematar ao fallar</string>
+    <string name="opciones3">Modo aleatorio</string>
+    <string name="Introducirpregunta">Inserir Pregunta</string>
+    <string name="introducir1">Introduce unha pregunta</string>
+    <string name="introducir2">Resposta1</string>
+    <string name="introducir3">Resposta2</string>
+    <string name="introducir4">Resposta3</string>
+    <string name="introducir5">Resposta4</string>
+    <string name="introducir6">Gardar</string>
+    <string name="Fin">Fin</string>
+    <string name="Felicidades">Parabéns, obtivo unha puntuación de %d puntos</string>
+    <string name="Resumeboton">Compartir</string>
+    <string name="Toastintroducir">Pregunta ingresada con éxito</string>
+    <string name="Toastintroducir1">Erro!Por favor, seleccione unha resposta correcta</string>
+    <string name="Toastintroducir2">Erro! Verifique todos os campos!</string>
 </resources>

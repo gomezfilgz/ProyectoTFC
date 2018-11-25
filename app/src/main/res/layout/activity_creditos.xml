@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/guitarmastil">
+
+        <TextView
+            android:id="@+id/creditos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:textColorHint="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:hint="@string/creditos"/>
+
+        <TextView
+            android:id="@+id/creditos1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textColorHint="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:layout_marginTop="48dp"
+            android:hint="@string/creditos1"/>
+
+        <TextView
+            android:id="@+id/creditos2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textColorHint="#FFFFFF"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FFFFFF"
+            android:hint="@string/creditos2"/>
+
+        <TextView
+            android:id="@+id/creditos3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textColorHint="#FFFFFF"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FFFFFF"
+            android:hint="@string/creditos3"/>
+
+</LinearLayout>

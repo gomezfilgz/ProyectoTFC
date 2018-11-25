@@ -1,18 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gomez.mijuego2.MainActivity">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="@drawable/guitarplay">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/app_name"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="72sp"
+        android:fontFamily="@font/signatra"/>
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/jugar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/Jugar"/>
+
+    <Button
+        android:id="@+id/introducir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Editar"/>
+
+    <Button
+        android:id="@+id/opciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Opciones"/>
+
+    <Button
+        android:id="@+id/creditos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/creditos"/>
+
+    <Button
+        android:id="@+id/ayuda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Ayuda"/>
+
+</LinearLayout>
