@@ -7,6 +7,7 @@ public class ModeloPregunta {
 
 
     public ModeloPregunta(int id, String titulo) {
+
         this.id = id;
         this.titulo = titulo;
     }
